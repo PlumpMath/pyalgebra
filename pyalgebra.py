@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #
-# A monoid is an object that has:
-#   a "plus" method and a "zero" method
+#
 
 __MONOIDS__ = {}
 
@@ -30,6 +29,7 @@ class IntMonoid(Monoid):
     def plus(self, x, y, monoids = None): return x + y
 __MONOIDS__[int] = IntMonoid()
 
+# Warning: plus modifies either x or y (whichever is bigger)
 class DictMonoid(Monoid):
     def zero(self): return {}
     def plus(self, x, y, monoids = __MONOIDS__):
@@ -72,6 +72,16 @@ __MONOIDS__[set] = SetMonoid()
 def plus(x, y, monoids = __MONOIDS__):
     monoid = getMonoid(x, y, monoids)
     return monoid.plus(x, y, monoids)
+
+def total(items, monoids = __MONOIDS__):
+    if len(items) == 0:
+        return None
+    else:
+        total = items[0]
+        for item in items[1:]:
+            total = plus(total, item, monoids)
+        return total
+
     
 if __name__ == "__main__":
     assert 3 == plus(1, 2)
@@ -96,6 +106,10 @@ if __name__ == "__main__":
             "a": [2,3],
             "b": 1
         })
+
+    assert None == total([])
+    assert 1 == total([1])
+    assert [1,2,3,4,5] == total([[1], [2,3], [4,5]])
 
     import copy
     monoids = copy.deepcopy(__MONOIDS__)
