@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 #
+# Example usage:
+#   
+#   plus(1, 2) == 3
+#   plus({"a": 1}, {"a": 2}) == {"a": 3}
+#
+#   More complex usage examples in "__main__"
 #
 
 __MONOIDS__ = {}
@@ -8,7 +14,7 @@ def getMonoid(x, y = None, monoids = __MONOIDS__):
     if y == None:
         typ = type(x)
         if typ not in monoids:
-            raise ValueError("%s does not have an associated monoid" % typ)
+            raise ValueError("%s does not have an associated monoid" % x)
         return monoids[typ]
     else:
         xMonoid = getMonoid(x, None, monoids)
@@ -107,6 +113,41 @@ if __name__ == "__main__":
             "b": 1
         })
 
+    left = {
+        "a": 1,
+        "b": ["x", "y", "z"],
+        "c": {
+            "a": set([1,2,3]),
+            "b": 1
+        },
+        "q": 3
+    }
+
+    right = {
+        "a": 3,
+        "b": [1,2,3],
+        "c": {
+            "a": set([1,2,5,6]),
+            "b": 7,
+            "d": 3
+        },
+        "p": 5
+    }
+
+    combined = {
+        "a": 4,
+        "b": ["x", "y", "z", 1, 2, 3],
+        "c": {
+            "a": set([1,2,3,5,6]),
+            "b": 8,
+            "d": 3
+        },
+        "q": 3,
+        "p": 5
+    }
+
+    assert plus(left, right) == combined
+
     assert None == total([])
     assert 1 == total([1])
     assert [1,2,3,4,5] == total([[1], [2,3], [4,5]])
@@ -119,9 +160,3 @@ if __name__ == "__main__":
     monoids[int] = MockIntMonoid()
     assert {"a": 3} == plus({"a": 1}, {"a": 2})
     assert {"a": -1} == plus({"a": 1}, {"a": 2}, monoids)
-
-
-
-
-
-
