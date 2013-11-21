@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 #
+# This is free and unencumbered software released into the public domain.
+#
+# Inspiration from https://github.com/twitter/algebird
+#
 # Example usage:
 #   
 #   plus(1, 2) == 3

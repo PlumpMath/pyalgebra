@@ -1,7 +1,7 @@
 pyalgebra
 =========
 
-Monoids for python. Example usage:
+Public domain monoids for python. Example usage:
 
     plus(1, 2) == 3
     plus({"a": 1}, {"a": 2}) == {"a": 3}
